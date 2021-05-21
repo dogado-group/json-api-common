@@ -32,4 +32,4 @@ This package contains code taken from [enm/json-api-common](https://github.com/e
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
