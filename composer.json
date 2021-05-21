@@ -1,0 +1,47 @@
+{
+  "name": "dogado/json-api-common",
+  "description": "Common interfaces and classes which represent the JSON:API protocol in order to build a client or server application.",
+  "keywords": [
+    "dogado",
+    "json api"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/dogado-group/json-api-common",
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "ext-json": "*",
+    "psr/http-message": "^1.0",
+    "doctrine/annotations": "^1.10",
+    "illuminate/support": "^7.0 || ^8.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0",
+    "fakerphp/faker": "^1.10",
+    "guzzlehttp/psr7": "^1.7",
+    "phpstan/phpstan": "^0.12.53",
+    "squizlabs/php_codesniffer": "^3.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dogado\\JsonApi\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Dogado\\JsonApi\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": [
+      "phpunit",
+      "phpstan analyse",
+      "phpcs --standard=phpcs.xml"
+    ],
+    "unit": "phpunit",
+    "stan": "phpstan analyse",
+    "cs": "phpcs --standard=phpcs.xml"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
