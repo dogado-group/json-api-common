@@ -12,7 +12,7 @@
     "php": "^7.4 || ^8.0",
     "ext-json": "*",
     "psr/http-message": "^1.0",
-    "doctrine/annotations": "^1.10",
+    "doctrine/annotations": "^1.11",
     "illuminate/support": "^7.0 || ^8.0"
   },
   "require-dev": {
