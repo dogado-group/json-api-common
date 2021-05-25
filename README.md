@@ -1,5 +1,12 @@
 # Common interfaces and classes which represent the JSON:API protocol
 
+[![phpunit](https://github.com/dogado-group/json-api-common/actions/workflows/phpunit.yml/badge.svg)](https://github.com/dogado-group/json-api-common/actions/workflows/phpunit.yml)
+[![Coverage Status](https://coveralls.io/repos/github/dogado-group/json-api-common/badge.svg?branch=main)](https://coveralls.io/github/dogado-group/json-api-common?branch=main)
+[![Total Downloads](https://poser.pugx.org/dogado/json-api-common/downloads)](https://packagist.org/packages/dogado/json-api-common)
+[![Latest Stable Version](https://poser.pugx.org/dogado/json-api-common/v/stable)](https://packagist.org/packages/dogado/json-api-common)
+[![Latest Unstable Version](https://poser.pugx.org/dogado/json-api-common/v/unstable.png)](https://packagist.org/packages/dogado/json-api-common)
+[![License](https://poser.pugx.org/dogado/json-api-common/license)](https://packagist.org/packages/dogado/json-api-common)
+
 This library contains php classes and interfaces shared between
 [`dogado/json-api-server`](https://github.com/dogado-group/json-api-server) and 
 [`dogado/json-api-client`](https://github.com/dogado-group/json-api-client).
