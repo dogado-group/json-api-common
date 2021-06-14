@@ -11,7 +11,7 @@ use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
  * @Target({"PROPERTY"})
  * @NamedArgumentConstructor()
  */
-#[\Attribute]
+#[\Attribute(\Attribute::TARGET_PROPERTY)]
 class Attribute
 {
     /**
