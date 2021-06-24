@@ -107,6 +107,13 @@ class DataModelAnalyser
                 $this->type = $annotation->value;
             }
         }
+        // php 8 attribute support
+        foreach ($reflection->getAttributes() as $reflectionAttribute) {
+            $attribute = $reflectionAttribute->newInstance();
+            if ($attribute instanceof Type) {
+                $this->type = $attribute->value;
+            }
+        }
 
         foreach ($reflection->getProperties() as $property) {
             $property->setAccessible(true);
@@ -114,6 +121,12 @@ class DataModelAnalyser
             foreach ($this->annotationReader->getPropertyAnnotations($property) as $annotation) {
                 $this->parseId($property, $annotation);
                 $this->parseAttribute($property, $annotation, $propertyNamePrefix, $attributeNamePrefix);
+            }
+            // php 8 attribute support
+            foreach ($property->getAttributes() as $reflectionAttribute) {
+                $attribute = $reflectionAttribute->newInstance();
+                $this->parseId($property, $attribute);
+                $this->parseAttribute($property, $attribute, $propertyNamePrefix, $attributeNamePrefix);
             }
         }
     }

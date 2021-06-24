@@ -1,6 +1,6 @@
 <?php
 
-namespace Dogado\JsonApi\Tests\Converter\ModelConverterTest;
+namespace Dogado\JsonApi\Tests\Converter\ModelConverterTest\Php8Attributes;
 
 use DateTime;
 use Dogado\JsonApi\Annotations\Attribute;
@@ -11,33 +11,25 @@ use Dogado\JsonApi\Support\Model\CustomAttributeSetterInterface;
 use InvalidArgumentException;
 
 /**
- * @Type("dummy-serializer-model")
+ * @Type("dummy-serializer-model-mixed")
  */
-class DataModel implements CustomAttributeGetterInterface, CustomAttributeSetterInterface
+class DataModelWithMixedAnnotations implements CustomAttributeGetterInterface, CustomAttributeSetterInterface
 {
-    /**
-     * @Id()
-     */
-    private ?int $id = 123456;
+    #[Id]
+    private ?int $id = 1234567;
 
-    /**
-     * @Attribute()
-     */
-    private ?string $name = 'loremIpsum';
+    #[Attribute]
+    private ?string $name = 'loremIpsum123';
 
     /**
      * @Attribute("values")
      */
     private ValueObject $valueObject;
 
-    /**
-     * @Attribute("empty-values")
-     */
+    #[Attribute('empty-values')]
     private ?ValueObject $valueObjectNotInitialized = null;
 
-    /**
-     * @Attribute(ignoreOnNull=true)
-     */
+    #[Attribute(ignoreOnNull: true)]
     private ?string $ignoreOnNull = null;
 
     /**
@@ -45,9 +37,7 @@ class DataModel implements CustomAttributeGetterInterface, CustomAttributeSetter
      */
     private DateTime $createdAt;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?DateTime $updatedAt = null;
 
     public function __construct(DateTime $createdAt)

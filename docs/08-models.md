@@ -33,7 +33,7 @@ class User implements CustomAttributeGetterInterface, CustomAttributeSetterInter
 
     /**
      * Translates to: /data/attributes/name
-     * @Attribute()
+     * @Attribute(ignoreOnNull=true)
      */
     private ?string $name = null;
 
@@ -109,6 +109,50 @@ The model conversion supports the filling and conversion of all types of member 
 * when converting from JSON API resource to model, the object property has to be an initialized object instance
 
 Whenever you want to use objects as Attributes which do not hold Attributes definitions themselves, you have to use either the `CustomAttributeGetterInterface` or `CustomAttributeSetterInterface`, depending on your needs.
+
+## php 8 attribute support
+
+[php 8 introduced attributes](https://www.php.net/manual/en/language.attributes.overview.php) which are influenced
+by annotations. The model conversion supports this feature. All annotation classes can just as well be used as php 8 attributes.
+This is the php 8 equivalent to the above written example:
+
+```php
+<?php
+namespace App\Models;
+
+use DateTime;
+use Dogado\JsonApi\Annotations\Attribute;
+use Dogado\JsonApi\Annotations\Type;
+use Dogado\JsonApi\Annotations\Id;
+
+#[Type('user')]
+class User
+{
+    #[Id]
+    private ?int $id = null;
+
+    /**
+     * Yes, even named arguments are working here!
+     */
+    #[Attribute(ignoreOnNull: true)]
+    private ?string $name = null;
+
+    #[Attribute('email')]
+    private ?string $emailAddress = null;
+
+    #[Attribute('/options/receiveNewsletters')]
+    private ?bool $receiveNewsletters = null;
+
+    #[Attribute('address')]
+    private AddressValueObject $address;
+
+    #[Attribute]
+    private ?DateTime $createdAt = null;
+
+    #[Attribute]
+    private ?DateTime $updatedAt = null;
+}
+```
 
 ## Typed properties
 
@@ -197,10 +241,6 @@ $model = new Model();
 (new ResourceConverter())->toModel($resource, $model);
 // `$model` will now contain the JSON API resource data
 ```
-
-## Upcoming features for php 8
-
-php 8 includes a great set of new features including property attributes and union types, which could make this part of the package even better. We will try to make the model conversion compatible to that as soon as possible.
 
 *****
 

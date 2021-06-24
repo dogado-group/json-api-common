@@ -11,20 +11,15 @@ use Throwable;
 
 class Error implements ErrorInterface
 {
-    private int $status;
-    private string $title;
-    private string $detail;
-    private string $code;
     private KeyValueCollection $metaCollection;
     private KeyValueCollection $source;
 
-    public function __construct(int $status, string $title, string $detail = '', string $code = '')
-    {
-        $this->status = $status;
-        $this->title = $title;
-        $this->detail = $detail;
-        $this->code = $code;
-
+    public function __construct(
+        private int $status,
+        private string $title,
+        private string $detail = '',
+        private string $code = ''
+    ) {
         $this->metaCollection = new KeyValueCollection();
         $this->source = new KeyValueCollection();
     }
