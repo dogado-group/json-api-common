@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.1.0 - 2021-XX-XX
+## v1.1.0 - 2021-06-24
 
 - add php 8 attribute support for JSON:API model conversion
 - drop php 7.4 support
