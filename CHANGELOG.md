@@ -2,7 +2,7 @@
 
 ## v1.1.0 - 2021-XX-XX
 
-- add support for php 8 attributes for JSON:API model conversion
+- add php 8 attribute support for JSON:API model conversion
 - drop php 7.4 support
 
 ## v1.0.0 - 2021-05-21
