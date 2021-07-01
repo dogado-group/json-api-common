@@ -2,7 +2,7 @@
 
 namespace Dogado\JsonApi\Tests\Converter;
 
-use DateTime;
+use DateTimeInterface;
 use Dogado\JsonApi\Converter\ResourceConverter;
 use Dogado\JsonApi\Exception\DataModelSerializerException;
 use Dogado\JsonApi\Model\Resource\Resource;
@@ -52,7 +52,7 @@ class ResourceConverterTest extends TestCase
                 ],
                 'willBeCastedToArray' => $this->faker()->userName,
                 'ignoreOnNull' => $this->faker()->text,
-                'createdAt' => $date->format(DateTime::ATOM),
+                'createdAt' => $date->format(DateTimeInterface::ATOM),
                 'updatedAt' => null,
             ],
         );
