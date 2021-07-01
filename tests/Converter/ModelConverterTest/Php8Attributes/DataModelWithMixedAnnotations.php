@@ -3,6 +3,7 @@
 namespace Dogado\JsonApi\Tests\Converter\ModelConverterTest\Php8Attributes;
 
 use DateTime;
+use DateTimeInterface;
 use Dogado\JsonApi\Annotations\Attribute;
 use Dogado\JsonApi\Annotations\Id;
 use Dogado\JsonApi\Annotations\Type;
@@ -53,7 +54,7 @@ class DataModelWithMixedAnnotations implements CustomAttributeGetterInterface, C
     {
         switch ($property) {
             case 'createdAt':
-                return $this->createdAt->format(DateTime::ATOM);
+                return $this->createdAt->format(DateTimeInterface::ATOM);
             default:
                 return null;
         }
@@ -66,7 +67,7 @@ class DataModelWithMixedAnnotations implements CustomAttributeGetterInterface, C
     {
         switch ($property) {
             case 'createdAt':
-                $dateTime = DateTime::createFromFormat(DateTime::ATOM, $value);
+                $dateTime = DateTime::createFromFormat(DateTimeInterface::ATOM, $value);
                 if (!$dateTime) {
                     throw new InvalidArgumentException('createdAt is no valid atom string');
                 }

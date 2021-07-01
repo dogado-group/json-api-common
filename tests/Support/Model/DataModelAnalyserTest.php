@@ -2,7 +2,7 @@
 
 namespace Dogado\JsonApi\Tests\Support\Model;
 
-use DateTime;
+use DateTimeInterface;
 use Dogado\JsonApi\Support\Model\DataModelAnalyser;
 use Dogado\JsonApi\Tests\Support\Model\DataModelAnalyserTest\DummyModel;
 use Dogado\JsonApi\Tests\Support\Model\DataModelAnalyserTest\ModelWithNoId;
@@ -26,7 +26,7 @@ class DataModelAnalyserTest extends TestCase
             'name' => 'newName',
             'sub-object/test/property' => 'lorem',
             'sub-object/test/second-property' => 'ipsum',
-            'sub-object/createdAt' => $date->format(DateTime::ATOM),
+            'sub-object/createdAt' => $date->format(DateTimeInterface::ATOM),
             'sub-object/updatedAt' => null,
             'sub-model/name' => 'sub-name',
             'sub-model/sub-model2/name' => 'sub-sub-name',

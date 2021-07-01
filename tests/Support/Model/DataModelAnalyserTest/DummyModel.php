@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Dogado\JsonApi\Tests\Support\Model\DataModelAnalyserTest;
 
 use DateTime;
+use DateTimeInterface;
 use Dogado\JsonApi\Annotations\Attribute;
 use Dogado\JsonApi\Annotations\Id;
 use Dogado\JsonApi\Annotations\Type;
@@ -78,7 +79,7 @@ class DummyModel implements CustomAttributeGetterInterface
     {
         switch ($propertyName) {
             case 'createdAt':
-                return $this->createdAt->format(DateTime::ATOM);
+                return $this->createdAt->format(DateTimeInterface::ATOM);
             default:
                 return null;
         }
