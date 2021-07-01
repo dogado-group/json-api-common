@@ -240,7 +240,7 @@ class RequestTest extends TestCase
         $paginationValue = $this->faker->numberBetween();
         $request->pagination()->set($paginationKey, $paginationValue);
 
-        $includes = $this->faker->words;
+        $includes = array_unique($this->faker->words());
         foreach ($includes as $include) {
             self::assertFalse($request->requestsInclude($include));
             $request->include($include);
