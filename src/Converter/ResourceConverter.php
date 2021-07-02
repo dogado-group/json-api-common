@@ -8,7 +8,6 @@ use Dogado\JsonApi\Exception\DataModelSerializerException;
 use Dogado\JsonApi\Model\Resource\ResourceInterface;
 use Dogado\JsonApi\Support\Model\CustomAttributeSetterInterface;
 use Dogado\JsonApi\Support\Model\DataModelAnalyser;
-use Illuminate\Support\Arr;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionNamedType;
@@ -47,12 +46,14 @@ class ResourceConverter
             $this->setValue($reflection, $model, [$analyser->getIdPropertyName()], $resource->id());
         }
 
-        $attributeArray = $resource->attributes()->all();
+        $attributeValues = $resource->attributes()->all();
         foreach ($analyser->getAttributesPropertyMap() as $attributeMap => $propertyMap) {
-            $attributeMap = str_replace('/', '.', $attributeMap);
-
-            $value = Arr::get($attributeArray, $attributeMap);
-            $this->setValue($reflection, $model, explode('/', $propertyMap), $value);
+            $this->setValue(
+                $reflection,
+                $model,
+                explode('/', $propertyMap),
+                $this->getNestedAttributeValue($attributeValues, $attributeMap)
+            );
         }
 
         return $model;
@@ -142,5 +143,18 @@ class ResourceConverter
                 $property->setValue($model, (array) $value);
                 break;
         }
+    }
+
+    private function getNestedAttributeValue(array $attributeValues, string $attributeMap): mixed
+    {
+        foreach (explode('/', $attributeMap) as $attribute) {
+            if (is_array($attributeValues) && array_key_exists($attribute, $attributeValues)) {
+                $attributeValues = $attributeValues[$attribute];
+            } else {
+                return null;
+            }
+        }
+
+        return $attributeValues;
     }
 }

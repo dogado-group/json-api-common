@@ -2,7 +2,7 @@
 
 namespace Dogado\JsonApi\Tests\Converter;
 
-use DateTime;
+use DateTimeInterface;
 use Dogado\JsonApi\Converter\ModelConverter;
 use Dogado\JsonApi\Exception\DataModelSerializerException;
 use Dogado\JsonApi\Model\Resource\Resource;
@@ -42,7 +42,7 @@ class ModelConverterTest extends TestCase
             'empty-values' => [
                 'number' => null,
             ],
-            'createdAt' => $date->format(DateTime::ATOM),
+            'createdAt' => $date->format(DateTimeInterface::ATOM),
             'updatedAt' => null,
         ]);
 
@@ -61,7 +61,7 @@ class ModelConverterTest extends TestCase
             'empty-values' => [
                 'number' => null,
             ],
-            'createdAt' => $date->format(DateTime::ATOM),
+            'createdAt' => $date->format(DateTimeInterface::ATOM),
             'updatedAt' => null,
         ]);
 
@@ -80,7 +80,7 @@ class ModelConverterTest extends TestCase
             'empty-values' => [
                 'number' => null,
             ],
-            'createdAt' => $date->format(DateTime::ATOM),
+            'createdAt' => $date->format(DateTimeInterface::ATOM),
             'updatedAt' => null,
         ]);
 

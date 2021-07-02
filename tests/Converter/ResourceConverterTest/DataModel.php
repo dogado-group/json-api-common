@@ -3,6 +3,7 @@
 namespace Dogado\JsonApi\Tests\Converter\ResourceConverterTest;
 
 use DateTime;
+use DateTimeInterface;
 use Dogado\JsonApi\Annotations\Attribute;
 use Dogado\JsonApi\Annotations\Id;
 use Dogado\JsonApi\Annotations\Type;
@@ -122,7 +123,7 @@ class DataModel implements CustomAttributeSetterInterface
     {
         switch ($property) {
             case 'createdAt':
-                $dateTime = DateTime::createFromFormat(DateTime::ATOM, $value);
+                $dateTime = DateTime::createFromFormat(DateTimeInterface::ATOM, $value);
                 if (!$dateTime) {
                     throw new InvalidArgumentException('createdAt value is no valid atom string');
                 }

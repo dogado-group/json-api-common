@@ -79,7 +79,7 @@ class DataModelAnalyser
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, mixed> All attribute values indexed by a slash separated key.
      */
     public function getAttributeValues(): array
     {
