@@ -4,9 +4,9 @@ namespace Dogado\JsonApi\Tests\Converter\ModelConverterTest\Php8Attributes;
 
 use DateTime;
 use DateTimeInterface;
-use Dogado\JsonApi\Annotations\Attribute;
-use Dogado\JsonApi\Annotations\Id;
-use Dogado\JsonApi\Annotations\Type;
+use Dogado\JsonApi\Attribute\Attribute;
+use Dogado\JsonApi\Attribute\Id;
+use Dogado\JsonApi\Attribute\Type;
 use Dogado\JsonApi\Support\Model\CustomAttributeGetterInterface;
 use Dogado\JsonApi\Support\Model\CustomAttributeSetterInterface;
 use InvalidArgumentException;

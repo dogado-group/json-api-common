@@ -2,7 +2,7 @@
 
 namespace Dogado\JsonApi\Tests\Converter\ModelConverterTest\Php8Attributes;
 
-use Dogado\JsonApi\Annotations\Attribute;
+use Dogado\JsonApi\Attribute\Attribute;
 
 class ValueObject
 {

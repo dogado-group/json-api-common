@@ -104,6 +104,15 @@ class DataModelAnalyser
 
         foreach ($this->annotationReader->getClassAnnotations($reflection) as $annotation) {
             if ($annotation instanceof Type) {
+                trigger_deprecation(
+                    'dogado/json-api-common',
+                    '1.1',
+                    'Using the doctrine annotation "%s" in class "%s" is deprecated. Use "%s" as php 8 ' .
+                        'attribute instead.',
+                    get_class($annotation),
+                    $this->className,
+                    \Dogado\JsonApi\Attribute\Type::class
+                );
                 $this->type = $annotation->value;
             }
         }
@@ -137,6 +146,18 @@ class DataModelAnalyser
             return;
         }
 
+        if (!$annotation instanceof \Dogado\JsonApi\Attribute\Id) {
+            trigger_deprecation(
+                'dogado/json-api-common',
+                '1.1',
+                'Using the doctrine annotation "%s" in class "%s" is deprecated. Use "%s" as php 8 ' .
+                'attribute instead.',
+                get_class($annotation),
+                $this->className,
+                \Dogado\JsonApi\Attribute\Id::class
+            );
+        }
+
         $this->propertyMap['id'] = $property->getName();
         if (null === $this->model) {
             $this->resourceValueMap['id'] = null;
@@ -158,6 +179,18 @@ class DataModelAnalyser
     ): void {
         if (!$annotation instanceof Attribute) {
             return;
+        }
+
+        if (!$annotation instanceof \Dogado\JsonApi\Attribute\Attribute) {
+            trigger_deprecation(
+                'dogado/json-api-common',
+                '1.1',
+                'Using the doctrine annotation "%s" in class "%s" is deprecated. Use "%s" as php 8 ' .
+                'attribute instead.',
+                get_class($annotation),
+                $this->className,
+                \Dogado\JsonApi\Attribute\Attribute::class
+            );
         }
 
         $attributeName = trim($attributeNamePrefix . '/' . ($annotation->value ?? $property->getName()));
