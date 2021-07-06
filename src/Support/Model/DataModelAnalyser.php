@@ -106,7 +106,7 @@ class DataModelAnalyser
             if ($annotation instanceof Type) {
                 trigger_deprecation(
                     'dogado/json-api-common',
-                    '1.1',
+                    '1.2',
                     'Using the doctrine annotation "%s" in class "%s" is deprecated. Use "%s" as php 8 ' .
                         'attribute instead.',
                     get_class($annotation),
@@ -149,7 +149,7 @@ class DataModelAnalyser
         if (!$annotation instanceof \Dogado\JsonApi\Attribute\Id) {
             trigger_deprecation(
                 'dogado/json-api-common',
-                '1.1',
+                '1.2',
                 'Using the doctrine annotation "%s" in class "%s" is deprecated. Use "%s" as php 8 ' .
                 'attribute instead.',
                 get_class($annotation),
@@ -184,7 +184,7 @@ class DataModelAnalyser
         if (!$annotation instanceof \Dogado\JsonApi\Attribute\Attribute) {
             trigger_deprecation(
                 'dogado/json-api-common',
-                '1.1',
+                '1.2',
                 'Using the doctrine annotation "%s" in class "%s" is deprecated. Use "%s" as php 8 ' .
                 'attribute instead.',
                 get_class($annotation),
