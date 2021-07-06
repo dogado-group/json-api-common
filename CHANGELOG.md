@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.1.2 - 2021-07-XX
+
+- introduce dedicated php 8 attribute classes to replace annotations in the next major release
+- trigger deprecation errors when using annotations
+
 ## v1.1.1 - 2021-07-04
 
 - remove `illuminate/support` as dependency
