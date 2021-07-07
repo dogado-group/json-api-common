@@ -179,7 +179,7 @@ class Request implements RequestInterface
             }
             foreach (explode(',', $query->getRequired('sort')) as $field) {
                 $direction = self::ORDER_ASC;
-                if (strpos($field, '-') === 0) {
+                if (str_starts_with($field, '-')) {
                     $field = substr($field, 1);
                     $direction = self::ORDER_DESC;
                 }
@@ -342,7 +342,7 @@ class Request implements RequestInterface
         if (!array_key_exists($requestKey, $this->subRequests)) {
             $includes = [];
             foreach ($this->includes as $include) {
-                if (strpos($include, '.') !== false && strpos($include, $relationship . '.') === 0) {
+                if (str_contains($include, '.') && str_starts_with($include, $relationship . '.')) {
                     $includes[] = explode('.', $include, 2)[1];
                 }
             }

@@ -16,7 +16,7 @@ class OffsetBasedPaginatedDocument extends Document
     private const OFFSET = 'offset';
     private const LIMIT = 'limit';
 
-    public function __construct($data, UriInterface $requestUri, int $resultCount, int $defaultLimit)
+    public function __construct(mixed $data, UriInterface $requestUri, int $resultCount, int $defaultLimit)
     {
         parent::__construct($data);
 

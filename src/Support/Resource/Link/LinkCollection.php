@@ -59,7 +59,7 @@ class LinkCollection extends AbstractCollection implements LinkCollectionInterfa
     {
         try {
             $existing = $this->get($link->name());
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->set($link);
             return $this;
         }

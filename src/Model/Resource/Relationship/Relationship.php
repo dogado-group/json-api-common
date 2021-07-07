@@ -28,7 +28,7 @@ class Relationship implements RelationshipInterface
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(string $name, $related = null)
+    public function __construct(string $name, mixed $related = null)
     {
         if ('' === $name) {
             throw new InvalidArgumentException('Invalid relationship');
