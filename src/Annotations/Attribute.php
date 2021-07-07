@@ -10,6 +10,7 @@ use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
  * @Annotation
  * @Target({"PROPERTY"})
  * @NamedArgumentConstructor()
+ * @deprecated Use the php 8 attribute Dogado\JsonApi\Attribute\Attribute instead.
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 class Attribute

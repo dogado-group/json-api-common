@@ -2,7 +2,7 @@
 
 namespace Dogado\JsonApi\Tests\Converter\ModelConverterTest\Php8Attributes;
 
-use Dogado\JsonApi\Annotations\Id;
+use Dogado\JsonApi\Attribute\Id;
 
 class DataModelWithoutTypeAnnotation
 {
