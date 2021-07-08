@@ -32,7 +32,7 @@ class ModelConverterTest extends TestCase
 
     public function testModelToResource(): void
     {
-        $date = $this->faker()->dateTime;
+        $date = $this->faker()->dateTime();
         $model = new DataModel($date);
         $expected = new Resource('dummy-serializer-model', (string) $model->getId(), [
             'name' => $model->getName(),
@@ -51,7 +51,7 @@ class ModelConverterTest extends TestCase
 
     public function testModelToResourcePhp8Attributes(): void
     {
-        $date = $this->faker()->dateTime;
+        $date = $this->faker()->dateTime();
         $model = new ModelConverterTest\Php8Attributes\DataModel($date);
         $expected = new Resource('dummy-serializer-model', (string) $model->getId(), [
             'name' => $model->getName(),
@@ -70,7 +70,7 @@ class ModelConverterTest extends TestCase
 
     public function testModelToResourceWithMixedAnnotations(): void
     {
-        $date = $this->faker()->dateTime;
+        $date = $this->faker()->dateTime();
         $model = new ModelConverterTest\Php8Attributes\DataModelWithMixedAnnotations($date);
         $expected = new Resource('dummy-serializer-model-mixed', (string) $model->getId(), [
             'name' => $model->getName(),

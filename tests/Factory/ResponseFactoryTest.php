@@ -28,7 +28,7 @@ class ResponseFactoryTest extends TestCase
 
     public function testCreated(): void
     {
-        $location = $this->faker()->url;
+        $location = $this->faker()->url();
         $headers = $this->createMock(KeyValueCollectionInterface::class);
         $document = $this->createMock(DocumentInterface::class);
         $this->assertEquals(
