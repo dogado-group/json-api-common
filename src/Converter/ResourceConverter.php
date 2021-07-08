@@ -60,11 +60,10 @@ class ResourceConverter
     }
 
     /**
-     * @param mixed $value
      * @throws DataModelSerializerException
      * @throws ReflectionException
      */
-    protected function setValue(ReflectionClass $reflection, object $model, array $propertyMap, $value): void
+    protected function setValue(ReflectionClass $reflection, object $model, array $propertyMap, mixed $value): void
     {
         $propertyName = array_shift($propertyMap);
         if (!$reflection->hasProperty($propertyName)) {
@@ -80,7 +79,7 @@ class ResourceConverter
 
         $property = $reflection->getProperty($propertyName);
         if (null !== $property->getType() && !$property->getType() instanceof ReflectionNamedType) {
-            // catch future union types, as they are not supported yet
+            // other reflection types, like union types, are not supported
             return;
         }
 

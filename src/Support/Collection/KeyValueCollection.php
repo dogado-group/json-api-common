@@ -26,9 +26,8 @@ class KeyValueCollection extends AbstractCollection implements KeyValueCollectio
 
     /**
      * @throws InvalidArgumentException
-     * @return mixed
      */
-    public function getRequired(string $key)
+    public function getRequired(string $key): mixed
     {
         if (!$this->has($key)) {
             throw new InvalidArgumentException('Element ' . $key . ' does not exist');
@@ -37,11 +36,7 @@ class KeyValueCollection extends AbstractCollection implements KeyValueCollectio
         return $this->collection[$this->keyMap[strtolower($key)]];
     }
 
-    /**
-     * @param mixed $defaultValue
-     * @return mixed
-     */
-    public function get(string $key, $defaultValue = null)
+    public function get(string $key, mixed $defaultValue = null): mixed
     {
         return $this->has($key) ? $this->collection[$this->keyMap[strtolower($key)]] : $defaultValue;
     }
@@ -83,10 +78,7 @@ class KeyValueCollection extends AbstractCollection implements KeyValueCollectio
         return $this;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function set(string $key, $value): KeyValueCollectionInterface
+    public function set(string $key, mixed $value): KeyValueCollectionInterface
     {
         $this->keyMap[strtolower($key)] = $key;
         if ($value instanceof KeyValueCollectionInterface) {

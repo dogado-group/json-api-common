@@ -31,7 +31,7 @@ class Document implements DocumentInterface
      *
      * @throws InvalidArgumentException
      */
-    public function __construct($data = null)
+    public function __construct(mixed $data = null)
     {
         if (null === $data || $data instanceof ResourceInterface) {
             $this->data = new SingleResourceCollection($data !== null ? [$data] : []);

@@ -15,7 +15,6 @@ use InvalidArgumentException;
 trait JsonApiTrait
 {
     /**
-     * @param mixed[] $attributes
      * @throws InvalidArgumentException
      */
     protected function resource(string $type, ?string $id = null, array $attributes = []): ResourceInterface
