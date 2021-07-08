@@ -156,14 +156,14 @@ class User
 
 ## Typed properties
 
-This package supports php `7.4`, which means that it also supports typed properties, and a limited casting of values. Casting will be done for the following property data types:
+This package supports php `8.0`, which means that it also supports typed properties, and a limited casting of values. Casting will be done for the following property data types:
 * `bool`/`boolean`
 * `int`/`integer`
 * `float`
 * `string`
 * `array`
 
-Other data types will be ignored.
+`mixed` values are kept and all other types will be ignored.
 
 It is highly recommended to use typed properties as much as possible, and it is good practice to also make them nullable, since the remote JSON API server might not return some attributes that your data model expects. Otherwise, this will end in a php fatal error.
 
