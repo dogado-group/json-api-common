@@ -4,111 +4,73 @@ namespace Dogado\JsonApi\Tests\Converter\ResourceConverterTest;
 
 use DateTime;
 use DateTimeInterface;
-use Dogado\JsonApi\Annotations\Attribute;
-use Dogado\JsonApi\Annotations\Id;
-use Dogado\JsonApi\Annotations\Type;
+use Dogado\JsonApi\Attribute\Attribute;
+use Dogado\JsonApi\Attribute\Id;
+use Dogado\JsonApi\Attribute\Type;
 use Dogado\JsonApi\Support\Model\CustomAttributeSetterInterface;
 use InvalidArgumentException;
 
-/**
- * @Type("dummy-deserializer-model")
- */
+#[Type('dummy-deserializer-model')]
 class DataModel implements CustomAttributeSetterInterface
 {
-    /**
-     * @Id()
-     */
+    #[Id]
     private ?int $id = null;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?string $nullAttribute = 'loremIpsum';
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?string $stringValue = null;
 
-    /**
-     * @Attribute()
-     * @var mixed
-     */
-    private $noTypeDeclaration;
+    #[Attribute]
+    private mixed $mixedValue = null;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
+    private mixed $noTypeDeclaration = null;
+
+    #[Attribute]
     private string $notNullable = 'loremIpsum';
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?string $doesNotExistInResource = null;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?string $notCastable = null;
 
-    /**
-     * @Attribute("values")
-     */
+    #[Attribute('values')]
     private ValueObject $valueObject;
 
-    /**
-     * @Attribute("arrayItems")
-     */
+    #[Attribute('arrayItems')]
     private ?array $arrayItems = null;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?bool $castBool = null;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?int $castInt = null;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?float $castFloat = null;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?string $castString = null;
 
-    /**
-     * @Attribute("named/sub/item")
-     */
+    #[Attribute('named/sub/item')]
     private ?string $namedSubItem = null;
 
-    /**
-     * @Attribute("named/sub/item2")
-     */
+    #[Attribute('named/sub/item2')]
     private ?string $namedSubItem2 = null;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?array $willBeCastedToArray = null;
 
-    /**
-     * @Attribute(ignoreOnNull=true)
-     */
+    #[Attribute(ignoreOnNull: true)]
     private ?string $ignoreOnNull = null;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?DateTime $createdAt = null;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?DateTime $updatedAt = null;
 
     public function __construct()
@@ -116,10 +78,7 @@ class DataModel implements CustomAttributeSetterInterface
         $this->valueObject = new ValueObject();
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function __setAttribute(string $property, $value): bool
+    public function __setAttribute(string $property, mixed $value): bool
     {
         switch ($property) {
             case 'createdAt':
@@ -149,10 +108,12 @@ class DataModel implements CustomAttributeSetterInterface
         return $this->stringValue;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNoTypeDeclaration()
+    public function getMixedValue(): mixed
+    {
+        return $this->mixedValue;
+    }
+
+    public function getNoTypeDeclaration(): mixed
     {
         return $this->noTypeDeclaration;
     }

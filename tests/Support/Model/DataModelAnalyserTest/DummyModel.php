@@ -6,64 +6,42 @@ namespace Dogado\JsonApi\Tests\Support\Model\DataModelAnalyserTest;
 
 use DateTime;
 use DateTimeInterface;
-use Dogado\JsonApi\Annotations\Attribute;
-use Dogado\JsonApi\Annotations\Id;
-use Dogado\JsonApi\Annotations\Type;
+use Dogado\JsonApi\Attribute\Attribute;
+use Dogado\JsonApi\Attribute\Id;
+use Dogado\JsonApi\Attribute\Type;
 use Dogado\JsonApi\Support\Model\CustomAttributeGetterInterface;
 
-/**
- * @Type("dummy-model")
- */
+#[Type('dummy-model')]
 class DummyModel implements CustomAttributeGetterInterface
 {
-    /**
-     * @Id()
-     */
+    #[Id]
     private ?string $modelId = '12345';
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     protected ?string $name = 'name';
 
-    /**
-     * @Attribute("name")
-     */
+    #[Attribute('name')]
     private ?string $newName = 'newName';
 
-    /**
-     * @Attribute("/sub-object/test/property/")
-     */
+    #[Attribute('/sub-object/test/property/')]
     public ?string $propertyWithinObject = 'lorem';
 
-    /**
-     * @Attribute("/sub-object///test/second-property/")
-     */
+    #[Attribute('/sub-object///test/second-property/')]
     private ?string $secondPropertyWithinObject = 'ipsum';
 
-    /**
-     * @Attribute("/sub-object/createdAt")
-     */
+    #[Attribute('/sub-object/createdAt')]
     private ?DateTime $createdAt;
 
-    /**
-     * @Attribute("/sub-object/updatedAt")
-     */
+    #[Attribute('/sub-object/updatedAt')]
     private ?DateTime $updatedAt = null;
 
-    /**
-     * @Attribute("sub-model")
-     */
+    #[Attribute('sub-model')]
     private DummyValueObjectModel $aggregationModel;
 
-    /**
-     * @Attribute("sub-model-null")
-     */
+    #[Attribute('sub-model-null')]
     private ?DummyValueObjectModel $aggregationModelNull = null;
 
-    /**
-     * @Attribute(ignoreOnNull=true)
-     */
+    #[Attribute(ignoreOnNull: true)]
     private ?string $ignoreOnNull = null;
 
     public function __construct(DateTime $createdAt)
@@ -72,16 +50,11 @@ class DummyModel implements CustomAttributeGetterInterface
         $this->aggregationModel = new DummyValueObjectModel();
     }
 
-    /**
-     * @return null|mixed
-     */
-    public function __getAttribute(string $propertyName)
+    public function __getAttribute(string $property): ?string
     {
-        switch ($propertyName) {
-            case 'createdAt':
-                return $this->createdAt->format(DateTimeInterface::ATOM);
-            default:
-                return null;
-        }
+        return match ($property) {
+            'createdAt' => $this->createdAt->format(DateTimeInterface::ATOM),
+            default => null,
+        };
     }
 }

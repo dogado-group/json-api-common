@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace Dogado\JsonApi\Tests\Support\Model\DataModelAnalyserTest;
 
-use Dogado\JsonApi\Annotations\Id;
-use Dogado\JsonApi\Annotations\Type;
+use Dogado\JsonApi\Attribute\Id;
+use Dogado\JsonApi\Attribute\Type;
 
-/**
- * @Type("modelWithNoId")
- */
+#[Type('modelWithNoId')]
 class ModelWithNoId
 {
-    /**
-     * @Id()
-     */
+    #[Id]
     private ?string $id = null;
 }

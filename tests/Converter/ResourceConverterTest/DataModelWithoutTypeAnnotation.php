@@ -2,12 +2,10 @@
 
 namespace Dogado\JsonApi\Tests\Converter\ResourceConverterTest;
 
-use Dogado\JsonApi\Annotations\Id;
+use Dogado\JsonApi\Attribute\Id;
 
 class DataModelWithoutTypeAnnotation
 {
-    /**
-     * @Id()
-     */
+    #[Id]
     private ?int $id = null;
 }

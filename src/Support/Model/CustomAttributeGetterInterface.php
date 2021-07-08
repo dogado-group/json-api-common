@@ -9,5 +9,5 @@ interface CustomAttributeGetterInterface
     /**
      * @return mixed Shall return null if the given property is not supported
      */
-    public function __getAttribute(string $property);
+    public function __getAttribute(string $property): mixed;
 }
