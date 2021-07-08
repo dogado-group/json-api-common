@@ -16,7 +16,7 @@ class DataModelAnalyserTest extends TestCase
      */
     public function testProcessWithObject(): void
     {
-        $date = $this->faker()->dateTime;
+        $date = $this->faker()->dateTime();
         $testModel = new DummyModel($date);
         $converter = DataModelAnalyser::process($testModel);
         $this->assertEquals('dummy-model', $converter->getType());

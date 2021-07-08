@@ -21,37 +21,37 @@ class ResourceConverterTest extends TestCase
     public function testResourceToModel(): void
     {
         $type = 'dummy-deserializer-model';
-        $date = $this->faker()->dateTime;
+        $date = $this->faker()->dateTime();
         $resource = new Resource(
             $type,
             (string) $this->faker()->numberBetween(),
             [
-                'stringValue' => $this->faker()->userName,
-                'doesNotExistInModel' => $this->faker()->userName,
-                'noTypeDeclaration' => $this->faker()->userName,
-                'notNullable' => $this->faker()->userName,
-                'notCastable' => [$this->faker()->userName],
+                'stringValue' => $this->faker()->userName(),
+                'doesNotExistInModel' => $this->faker()->userName(),
+                'noTypeDeclaration' => $this->faker()->userName(),
+                'notNullable' => $this->faker()->userName(),
+                'notCastable' => [$this->faker()->userName()],
                 'values' => [
                     'number' => (string) $this->faker()->numberBetween(),
-                    'ignoreOnNull' => $this->faker()->text,
+                    'ignoreOnNull' => $this->faker()->text(),
                 ],
                 'arrayItems' => [
-                    $this->faker->slug => $this->faker->text,
-                    $this->faker->slug => $this->faker->text,
-                    $this->faker->slug => $this->faker->text,
+                    $this->faker->slug() => $this->faker->text(),
+                    $this->faker->slug() => $this->faker->text(),
+                    $this->faker->slug() => $this->faker->text(),
                 ],
-                'castBool' => (int) $this->faker()->boolean,
+                'castBool' => (int) $this->faker()->boolean(),
                 'castInt' => (string) $this->faker()->numberBetween(),
                 'castFloat' => (string) $this->faker()->randomFloat(),
-                'castString' => (int) $this->faker()->randomNumber(),
+                'castString' => $this->faker()->randomNumber(),
                 'named' => [
                     'sub' => [
-                        'item' => $this->faker()->text,
-                        'item2' => $this->faker()->text,
+                        'item' => $this->faker()->text(),
+                        'item2' => $this->faker()->text(),
                     ],
                 ],
-                'willBeCastedToArray' => $this->faker()->userName,
-                'ignoreOnNull' => $this->faker()->text,
+                'willBeCastedToArray' => $this->faker()->userName(),
+                'ignoreOnNull' => $this->faker()->text(),
                 'createdAt' => $date->format(DateTimeInterface::ATOM),
                 'updatedAt' => null,
             ],
@@ -104,7 +104,7 @@ class ResourceConverterTest extends TestCase
 
     public function testTypeAnnotationMissing(): void
     {
-        $resource = new Resource($this->faker()->userName);
+        $resource = new Resource($this->faker()->userName());
         $model = new DataModelWithoutTypeAnnotation();
         $this->expectExceptionObject(
             DataModelSerializerException::typeAnnotationMissing(get_class($model))
@@ -114,7 +114,7 @@ class ResourceConverterTest extends TestCase
 
     public function testTypeAnnotationMismatch(): void
     {
-        $resource = new Resource($this->faker()->userName);
+        $resource = new Resource($this->faker()->userName());
         $model = new DataModel();
         $this->expectExceptionObject(
             DataModelSerializerException::modelTypeDoesNotMatchResourceType(
