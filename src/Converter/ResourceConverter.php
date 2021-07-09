@@ -83,7 +83,11 @@ class ResourceConverter
             return;
         }
 
-        if (null === $property->getType() || $property->getType()->getName() === gettype($value)) {
+        if (
+            null === $property->getType() ||
+            'mixed' === $property->getType()->getName() ||
+            $property->getType()->getName() === gettype($value)
+        ) {
             $property->setAccessible(true);
             $property->setValue($model, $value);
             return;

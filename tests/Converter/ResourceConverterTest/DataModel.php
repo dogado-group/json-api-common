@@ -32,6 +32,11 @@ class DataModel implements CustomAttributeSetterInterface
 
     /**
      * @Attribute()
+     */
+    private mixed $mixedValue = null;
+
+    /**
+     * @Attribute()
      * @var mixed
      */
     private $noTypeDeclaration;
@@ -147,6 +152,11 @@ class DataModel implements CustomAttributeSetterInterface
     public function getStringValue(): ?string
     {
         return $this->stringValue;
+    }
+
+    public function getMixedValue(): mixed
+    {
+        return $this->mixedValue;
     }
 
     /**

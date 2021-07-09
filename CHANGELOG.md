@@ -4,6 +4,7 @@
 
 - introduce dedicated php 8 attribute classes to replace annotations in the next major release
 - trigger deprecation errors when using annotations
+- add support for the `mixed` data type within the `ResourceConverter`
 
 ## v1.1.1 - 2021-07-04
 

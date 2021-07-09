@@ -21,12 +21,18 @@ class ResourceConverterTest extends TestCase
     public function testResourceToModel(): void
     {
         $type = 'dummy-deserializer-model';
+        $faker = $this->faker();
         $date = $this->faker()->dateTime();
         $resource = new Resource(
             $type,
             (string) $this->faker()->numberBetween(),
             [
                 'stringValue' => $this->faker()->userName(),
+                'mixedValue' => $this->faker()->randomElement([
+                    $faker->slug(),
+                    $faker->boolean(),
+                    $faker->numberBetween()
+                ]),
                 'doesNotExistInModel' => $this->faker()->userName(),
                 'noTypeDeclaration' => $this->faker()->userName(),
                 'notNullable' => $this->faker()->userName(),
@@ -63,6 +69,8 @@ class ResourceConverterTest extends TestCase
 
         $this->assertEquals($resource->id(), $model->getId());
         $this->assertNull($model->getNullAttribute());
+        $this->assertEquals($attributes->getRequired('stringValue'), $model->getStringValue());
+        $this->assertEquals($attributes->getRequired('mixedValue'), $model->getMixedValue());
         $this->assertEquals($attributes->getRequired('noTypeDeclaration'), $model->getNoTypeDeclaration());
         $this->assertEquals($attributes->getRequired('notNullable'), $model->getNotNullable());
         $this->assertNull($model->getDoesNotExistInResource());
