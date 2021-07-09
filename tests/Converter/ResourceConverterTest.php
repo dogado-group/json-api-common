@@ -22,7 +22,7 @@ class ResourceConverterTest extends TestCase
     {
         $type = 'dummy-deserializer-model';
         $faker = $this->faker();
-        $date = $this->faker()->dateTime;
+        $date = $this->faker()->dateTime();
         $resource = new Resource(
             $type,
             (string) $this->faker()->numberBetween(),
