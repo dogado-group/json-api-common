@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.2.0 - 2021-07-XX
+## v1.2.0 - 2021-07-09
 
 - introduce dedicated php 8 attribute classes to replace annotations in the next major release
 - trigger deprecation errors when using annotations
