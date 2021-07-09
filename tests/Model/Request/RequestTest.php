@@ -232,11 +232,11 @@ class RequestTest extends TestCase
             'api'
         );
 
-        $filterKey = $this->faker()->slug;
-        $filterValue = $this->faker()->word;
+        $filterKey = $this->faker()->slug();
+        $filterValue = $this->faker()->word();
         $request->filter()->set($filterKey, $filterValue);
 
-        $paginationKey = $this->faker()->slug;
+        $paginationKey = $this->faker()->slug();
         $paginationValue = $this->faker->numberBetween();
         $request->pagination()->set($paginationKey, $paginationValue);
 
@@ -247,16 +247,16 @@ class RequestTest extends TestCase
             self::assertTrue($request->requestsInclude($include));
         }
 
-        $sortField = $this->faker->word;
+        $sortField = $this->faker->word();
         $sortDirection = $this->faker()->randomElement([RequestInterface::ORDER_ASC, RequestInterface::ORDER_DESC]);
         $request->sorting()->set($sortField, $sortDirection);
 
-        $fieldType = $this->faker()->word;
-        $fieldName = $this->faker()->word;
+        $fieldType = $this->faker()->word();
+        $fieldName = $this->faker()->word();
         self::assertTrue($request->requestsField($fieldType, $fieldName));
         $request->field($fieldType, $fieldName);
         self::assertTrue($request->requestsField($fieldType, $fieldName));
-        self::assertFalse($request->requestsField($fieldType, $this->faker()->word));
+        self::assertFalse($request->requestsField($fieldType, $this->faker()->word()));
 
         $uri = $request->uri();
         $queryParameters = [];
