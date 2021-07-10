@@ -11,16 +11,11 @@ interface KeyValueCollectionInterface extends CollectionInterface
     public function has(string $key): bool;
 
     /**
-     * @return mixed
      * @throws InvalidArgumentException If the requested key does not exist.
      */
-    public function getRequired(string $key);
+    public function getRequired(string $key): mixed;
 
-    /**
-     * @param mixed $defaultValue
-     * @return mixed
-     */
-    public function get(string $key, $defaultValue = null);
+    public function get(string $key, mixed $defaultValue = null): mixed;
 
     public function getSubCollection(string $key, bool $required = true): KeyValueCollectionInterface;
 
@@ -31,10 +26,7 @@ interface KeyValueCollectionInterface extends CollectionInterface
         bool $overwrite = true
     ): KeyValueCollectionInterface;
 
-    /**
-     * @param mixed $value
-     */
-    public function set(string $key, $value): KeyValueCollectionInterface;
+    public function set(string $key, mixed $value): KeyValueCollectionInterface;
 
     public function remove(string $key): KeyValueCollectionInterface;
 }

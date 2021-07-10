@@ -130,10 +130,7 @@ class Serializer implements DocumentSerializerInterface
         return $data;
     }
 
-    /**
-     * @return array|string
-     */
-    protected function serializeLink(LinkInterface $link)
+    protected function serializeLink(LinkInterface $link): array|string
     {
         if (!$link->metaInformation()->isEmpty()) {
             return [
