@@ -26,7 +26,7 @@ class DataModel implements CustomAttributeSetterInterface
     private mixed $mixedValue = null;
 
     #[Attribute]
-    private mixed $noTypeDeclaration = null;
+    private $noTypeDeclaration = null;
 
     #[Attribute]
     private string $notNullable = 'loremIpsum';
@@ -113,7 +113,7 @@ class DataModel implements CustomAttributeSetterInterface
         return $this->mixedValue;
     }
 
-    public function getNoTypeDeclaration(): mixed
+    public function getNoTypeDeclaration()
     {
         return $this->noTypeDeclaration;
     }
