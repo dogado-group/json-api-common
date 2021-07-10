@@ -79,7 +79,7 @@ class ResourceCollection extends AbstractCollection implements ResourceCollectio
     {
         try {
             $existing = $this->get($resource->type(), $resource->id() ?? spl_object_hash($resource));
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->set($resource);
             return $this;
         }

@@ -2,18 +2,14 @@
 
 namespace Dogado\JsonApi\Tests\Converter\ModelConverterTest;
 
-use Dogado\JsonApi\Annotations\Attribute;
+use Dogado\JsonApi\Attribute\Attribute;
 
 class ValueObject
 {
-    /**
-     * @Attribute("number")
-     */
+    #[Attribute('number')]
     private ?int $test = 1213435664;
 
-    /**
-     * @Attribute(ignoreOnNull=true)
-     */
+    #[Attribute(ignoreOnNull: true)]
     private ?string $ignoreOnNull = null;
 
     public function getTest(): ?int

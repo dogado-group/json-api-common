@@ -60,7 +60,7 @@ class RelationshipCollection extends AbstractCollection implements RelationshipC
     ): RelationshipCollectionInterface {
         try {
             $existing = $this->get($relationship->name());
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->set($relationship);
             return $this;
         }

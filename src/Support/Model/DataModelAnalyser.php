@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Dogado\JsonApi\Support\Model;
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use Dogado\JsonApi\Annotations\Attribute;
-use Dogado\JsonApi\Annotations\Id;
-use Dogado\JsonApi\Annotations\Type;
+use Dogado\JsonApi\Attribute\Attribute;
+use Dogado\JsonApi\Attribute\Id;
+use Dogado\JsonApi\Attribute\Type;
 use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
@@ -16,7 +15,6 @@ use ReflectionProperty;
 
 class DataModelAnalyser
 {
-    protected AnnotationReader $annotationReader;
     protected string $className;
     protected ?object $model;
     protected ?string $type = null;
@@ -26,16 +24,9 @@ class DataModelAnalyser
     /**
      * @param object|string $class Either object or class name
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
-    public static function process($class): self
+    public static function process(object|string $class): self
     {
-        if (!is_object($class) && !is_string($class)) {
-            throw new InvalidArgumentException(
-                sprintf('$class must either be a class name or an object, %s given', gettype($class))
-            );
-        }
-
         if (is_object($class)) {
             $model = $class;
             $className = get_class($class);
@@ -44,20 +35,18 @@ class DataModelAnalyser
             $className = $class;
         }
 
-        return new self(new AnnotationReader(), $className, $model);
+        return new self($className, $model);
     }
 
     /**
      * @throws ReflectionException
      */
     private function __construct(
-        AnnotationReader $annotationReader,
         string $className,
         ?object $model,
         string $propertyNamePrefix = '',
         string $attributeNamePrefix = ''
     ) {
-        $this->annotationReader = $annotationReader;
         $this->className = $className;
         $this->model = $model;
         $this->analyse($propertyNamePrefix, $attributeNamePrefix);
@@ -102,36 +91,16 @@ class DataModelAnalyser
 
         $reflection = new ReflectionClass($this->className);
 
-        foreach ($this->annotationReader->getClassAnnotations($reflection) as $annotation) {
-            if ($annotation instanceof Type) {
-                trigger_deprecation(
-                    'dogado/json-api-common',
-                    '1.2',
-                    'Using the doctrine annotation "%s" in class "%s" is deprecated. Use "%s" as php 8 ' .
-                        'attribute instead.',
-                    get_class($annotation),
-                    $this->className,
-                    \Dogado\JsonApi\Attribute\Type::class
-                );
-                $this->type = $annotation->value;
-            }
-        }
-        // php 8 attribute support
         foreach ($reflection->getAttributes() as $reflectionAttribute) {
             $attribute = $reflectionAttribute->newInstance();
             if ($attribute instanceof Type) {
-                $this->type = $attribute->value;
+                $this->type = $attribute->name;
             }
         }
 
         foreach ($reflection->getProperties() as $property) {
             $property->setAccessible(true);
 
-            foreach ($this->annotationReader->getPropertyAnnotations($property) as $annotation) {
-                $this->parseId($property, $annotation);
-                $this->parseAttribute($property, $annotation, $propertyNamePrefix, $attributeNamePrefix);
-            }
-            // php 8 attribute support
             foreach ($property->getAttributes() as $reflectionAttribute) {
                 $attribute = $reflectionAttribute->newInstance();
                 $this->parseId($property, $attribute);
@@ -144,18 +113,6 @@ class DataModelAnalyser
     {
         if (!$annotation instanceof Id) {
             return;
-        }
-
-        if (!$annotation instanceof \Dogado\JsonApi\Attribute\Id) {
-            trigger_deprecation(
-                'dogado/json-api-common',
-                '1.2',
-                'Using the doctrine annotation "%s" in class "%s" is deprecated. Use "%s" as php 8 ' .
-                'attribute instead.',
-                get_class($annotation),
-                $this->className,
-                \Dogado\JsonApi\Attribute\Id::class
-            );
         }
 
         $this->propertyMap['id'] = $property->getName();
@@ -173,27 +130,15 @@ class DataModelAnalyser
      */
     protected function parseAttribute(
         ReflectionProperty $property,
-        object $annotation,
+        object $attribute,
         string $propertyNamePrefix = '',
         string $attributeNamePrefix = ''
     ): void {
-        if (!$annotation instanceof Attribute) {
+        if (!$attribute instanceof Attribute) {
             return;
         }
 
-        if (!$annotation instanceof \Dogado\JsonApi\Attribute\Attribute) {
-            trigger_deprecation(
-                'dogado/json-api-common',
-                '1.2',
-                'Using the doctrine annotation "%s" in class "%s" is deprecated. Use "%s" as php 8 ' .
-                'attribute instead.',
-                get_class($annotation),
-                $this->className,
-                \Dogado\JsonApi\Attribute\Attribute::class
-            );
-        }
-
-        $attributeName = trim($attributeNamePrefix . '/' . ($annotation->value ?? $property->getName()));
+        $attributeName = trim($attributeNamePrefix . '/' . ($attribute->name ?? $property->getName()));
         $attributeName = preg_replace('/\/+/', '/', $attributeName) ?? $attributeName;
         $attributeName = trim($attributeName, '/');
         if (empty($attributeName)) {
@@ -209,23 +154,24 @@ class DataModelAnalyser
         if (null !== $this->model && $this->model instanceof CustomAttributeGetterInterface) {
             $value = $this->model->__getAttribute($property->getName());
             if (null !== $value) {
-                $this->registerAttributeValue($annotation, $attributeName, $propertyMapName, $value);
+                $this->registerAttributeValue($attribute, $attributeName, $propertyMapName, $value);
                 return;
             }
         }
 
         $value = $this->model ? $property->getValue($this->model) : null;
 
+        $type = $property->getType();
         if (
-            $property->getType() instanceof ReflectionNamedType &&
-            !$property->getType()->isBuiltin() &&
-            class_exists($property->getType()->getName())
+            $type instanceof ReflectionNamedType &&
+            !$type->isBuiltin() &&
+            class_exists($type->getName())
         ) {
-            $this->parseValueObject($property->getType()->getName(), $value, $propertyMapName, $attributeName);
+            $this->parseValueObject($type->getName(), $value, $propertyMapName, $attributeName);
             return;
         }
 
-        $this->registerAttributeValue($annotation, $attributeName, $propertyMapName, $value);
+        $this->registerAttributeValue($attribute, $attributeName, $propertyMapName, $value);
     }
 
     /**
@@ -237,7 +183,7 @@ class DataModelAnalyser
         string $propertyPrefix,
         string $attributePrefix
     ): void {
-        $self = new self($this->annotationReader, $className, $valueObject, $propertyPrefix, $attributePrefix);
+        $self = new self($className, $valueObject, $propertyPrefix, $attributePrefix);
 
         // In case the value object has no attributes, we must register the attribute prefix with a null value.
         $this->propertyMap['attributes'] = array_merge(
@@ -250,14 +196,11 @@ class DataModelAnalyser
         );
     }
 
-    /**
-     * @param mixed $value
-     */
     private function registerAttributeValue(
         Attribute $attribute,
         string $attributeName,
         string $propertyMapName,
-        $value
+        mixed $value
     ): void {
         $this->propertyMap['attributes'][$attributeName] = $propertyMapName;
 

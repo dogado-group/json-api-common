@@ -4,51 +4,35 @@ namespace Dogado\JsonApi\Tests\Converter\ModelConverterTest;
 
 use DateTime;
 use DateTimeInterface;
-use Dogado\JsonApi\Annotations\Attribute;
-use Dogado\JsonApi\Annotations\Id;
-use Dogado\JsonApi\Annotations\Type;
+use Dogado\JsonApi\Attribute\Attribute;
+use Dogado\JsonApi\Attribute\Id;
+use Dogado\JsonApi\Attribute\Type;
 use Dogado\JsonApi\Support\Model\CustomAttributeGetterInterface;
 use Dogado\JsonApi\Support\Model\CustomAttributeSetterInterface;
 use InvalidArgumentException;
 
-/**
- * @Type("dummy-serializer-model")
- */
+#[Type('dummy-serializer-model')]
 class DataModel implements CustomAttributeGetterInterface, CustomAttributeSetterInterface
 {
-    /**
-     * @Id()
-     */
+    #[Id]
     private ?int $id = 123456;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?string $name = 'loremIpsum';
 
-    /**
-     * @Attribute("values")
-     */
+    #[Attribute('values')]
     private ValueObject $valueObject;
 
-    /**
-     * @Attribute("empty-values")
-     */
+    #[Attribute('empty-values')]
     private ?ValueObject $valueObjectNotInitialized = null;
 
-    /**
-     * @Attribute(ignoreOnNull=true)
-     */
+    #[Attribute(ignoreOnNull: true)]
     private ?string $ignoreOnNull = null;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private DateTime $createdAt;
 
-    /**
-     * @Attribute()
-     */
+    #[Attribute]
     private ?DateTime $updatedAt = null;
 
     public function __construct(DateTime $createdAt)
@@ -57,23 +41,15 @@ class DataModel implements CustomAttributeGetterInterface, CustomAttributeSetter
         $this->valueObject = new ValueObject();
     }
 
-    /**
-     * @return mixed
-     */
-    public function __getAttribute(string $property)
+    public function __getAttribute(string $property): ?string
     {
-        switch ($property) {
-            case 'createdAt':
-                return $this->createdAt->format(DateTimeInterface::ATOM);
-            default:
-                return null;
-        }
+        return match ($property) {
+            'createdAt' => $this->createdAt->format(DateTimeInterface::ATOM),
+            default => null,
+        };
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function __setAttribute(string $property, $value): bool
+    public function __setAttribute(string $property, mixed $value): bool
     {
         switch ($property) {
             case 'createdAt':
