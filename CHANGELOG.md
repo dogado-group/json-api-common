@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 - 2021-07-XX
+## v2.0.0 - 2021-07-XX
 
 * Dropped `doctrine/annotations` support. All JSON API model declarations must be php 8 attributes.
 * The legacy annotation classes under `Dogado\JsonApi\Annotations` have been removed.
