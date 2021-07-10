@@ -27,22 +27,22 @@ class JsonApiExceptionTest extends TestCase
 
     public function provideScenarios(): Generator
     {
-        $message = $this->faker()->text;
+        $message = $this->faker()->text();
         $httpStatus = $this->faker()->numberBetween(400, 599);
         yield [(new JsonApiException($message))->setHttpStatus($httpStatus), $message, $httpStatus];
 
-        $message = $this->faker()->text;
+        $message = $this->faker()->text();
         yield [new BadRequestException($message), $message, 400];
 
-        $message = $this->faker()->text;
+        $message = $this->faker()->text();
         yield [new NotAllowedException($message), $message, 403];
 
-        $type = $this->faker()->slug;
+        $type = $this->faker()->slug();
         $id = (string) $this->faker()->numberBetween();
         $message = 'Resource "' . $id . '" of type "' . $type . '" not found!';
         yield [new ResourceNotFoundException($type, $id), $message, 404];
 
-        $contentType = $this->faker()->slug;
+        $contentType = $this->faker()->slug();
         $message = sprintf(
             'Invalid content type "%s" given, "%s" expected',
             $contentType,
@@ -50,7 +50,7 @@ class JsonApiExceptionTest extends TestCase
         );
         yield [new UnsupportedMediaTypeException($contentType), $message, 415];
 
-        $message = $this->faker()->text;
+        $message = $this->faker()->text();
         yield [new ValidationException($message), $message, 422];
     }
 }

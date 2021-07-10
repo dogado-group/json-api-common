@@ -9,7 +9,7 @@ class ExceptionTest extends TestCase
 {
     public function testBadResponse(): void
     {
-        $jsonError = $this->faker()->text;
+        $jsonError = $this->faker()->text();
         $e = BadResponseException::invalidJsonDocument($jsonError);
         $this->assertStringContainsString($jsonError, $e->getMessage());
         $this->assertEquals(BadResponseException::CODE_INVALID_JSON_DOCUMENT, $e->getCode());
@@ -17,7 +17,7 @@ class ExceptionTest extends TestCase
 
     public function testDocumentSerializer(): void
     {
-        $jsonError = $this->faker()->text;
+        $jsonError = $this->faker()->text();
         $e = DocumentSerializerException::unableGenerateJsonDocument($jsonError);
         $this->assertStringContainsString($jsonError, $e->getMessage());
         $this->assertEquals(DocumentSerializerException::CODE_JSON_DOCUMENT_GENERATION_FAILED, $e->getCode());
