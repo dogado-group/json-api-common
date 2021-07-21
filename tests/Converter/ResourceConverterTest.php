@@ -41,6 +41,10 @@ class ResourceConverterTest extends TestCase
                     'number' => (string) $this->faker()->numberBetween(),
                     'ignoreOnNull' => $this->faker()->text(),
                 ],
+                'nullableValueObject' => [
+                    'number' => (string) $this->faker()->numberBetween(),
+                    'ignoreOnNull' => $this->faker()->text(),
+                ],
                 'arrayItems' => [
                     $this->faker->slug() => $this->faker->text(),
                     $this->faker->slug() => $this->faker->text(),
@@ -81,6 +85,15 @@ class ResourceConverterTest extends TestCase
         $this->assertEquals(
             $attributes->getSubCollection('values')->getRequired('ignoreOnNull'),
             $model->getValueObject()->getIgnoreOnNull()
+        );
+        $this->assertNotNull($model->getNullableValueObject());
+        $this->assertEquals(
+            (int) $attributes->getSubCollection('nullableValueObject')->getRequired('number'),
+            $model->getNullableValueObject()->getSubItem()
+        );
+        $this->assertEquals(
+            $attributes->getSubCollection('nullableValueObject')->getRequired('ignoreOnNull'),
+            $model->getNullableValueObject()->getIgnoreOnNull()
         );
         $this->assertEquals(
             $attributes->get('arrayItems'),
