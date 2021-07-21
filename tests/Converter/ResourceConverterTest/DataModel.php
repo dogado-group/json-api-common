@@ -40,6 +40,9 @@ class DataModel implements CustomAttributeSetterInterface
     #[Attribute('values')]
     private ValueObject $valueObject;
 
+    #[Attribute]
+    private ?ValueObject $nullableValueObject = null;
+
     #[Attribute('arrayItems')]
     private ?array $arrayItems = null;
 
@@ -136,6 +139,11 @@ class DataModel implements CustomAttributeSetterInterface
     public function getValueObject(): ValueObject
     {
         return $this->valueObject;
+    }
+
+    public function getNullableValueObject(): ?ValueObject
+    {
+        return $this->nullableValueObject;
     }
 
     public function getArrayItems(): ?array

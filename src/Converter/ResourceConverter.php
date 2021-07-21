@@ -8,6 +8,7 @@ use Dogado\JsonApi\Exception\DataModelSerializerException;
 use Dogado\JsonApi\Model\Resource\ResourceInterface;
 use Dogado\JsonApi\Support\Model\CustomAttributeSetterInterface;
 use Dogado\JsonApi\Support\Model\DataModelAnalyser;
+use Dogado\JsonApi\Support\Model\ValueObjectFactoryInterface;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionNamedType;
@@ -78,26 +79,40 @@ class ResourceConverter
         }
 
         $property = $reflection->getProperty($propertyName);
-        if (null !== $property->getType() && !$property->getType() instanceof ReflectionNamedType) {
+        $propertyType = $property->getType();
+        if (null !== $propertyType && !$propertyType instanceof ReflectionNamedType) {
             // other reflection types, like union types, are not supported
             return;
         }
 
         if (
-            null === $property->getType() ||
-            'mixed' === $property->getType()->getName() ||
-            $property->getType()->getName() === gettype($value)
+            null === $propertyType ||
+            'mixed' === $propertyType->getName() ||
+            $propertyType->getName() === gettype($value)
         ) {
             $property->setAccessible(true);
             $property->setValue($model, $value);
             return;
         }
 
-        if (class_exists($property->getType()->getName()) && 0 < count($propertyMap)) {
+        $propertyClassName = $propertyType->getName();
+        if (class_exists($propertyClassName) && 0 < count($propertyMap)) {
+            if (null === $value) {
+                return;
+            }
+
             $property->setAccessible(true);
             $valueObject = $property->getValue($model);
             if (null === $valueObject) {
-                return;
+                if (
+                    !(new ReflectionClass($propertyClassName))
+                        ->implementsInterface(ValueObjectFactoryInterface::class)
+                ) {
+                    return;
+                }
+                /** @var ValueObjectFactoryInterface $propertyClassName */
+                $valueObject = $propertyClassName::create();
+                $property->setValue($model, $valueObject);
             }
 
             $this->setValue(new ReflectionClass($valueObject), $valueObject, $propertyMap, $value);
@@ -105,7 +120,7 @@ class ResourceConverter
         }
 
         if (null === $value) {
-            if (!$property->getType()->allowsNull()) {
+            if (!$propertyType->allowsNull()) {
                 throw DataModelSerializerException::propertyIsNotNullable(
                     $this->resource ? $this->resource->type() : 'unknown',
                     get_class($model),
@@ -122,7 +137,7 @@ class ResourceConverter
             return;
         }
 
-        switch ($property->getType()->getName()) {
+        switch ($propertyType->getName()) {
             case 'boolean':
             case 'bool':
                 $property->setAccessible(true);
