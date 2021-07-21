@@ -1,11 +1,11 @@
 # Changelog
 
-## v2.0.0 - 2021-07-XX
+## v2.0.0 - 2021-07-11
 
-* Dropped `doctrine/annotations` support. All JSON API model declarations must be php 8 attributes.
-* The legacy annotation classes under `Dogado\JsonApi\Annotations` have been removed.
-* The `value` properties for the `Attribute` and `Type` attributes have been renamed to `name`.
-* The `DataModelAnalyser::process` method only accepts objects and strings per data type. Previously, the type check has been done manually and caused a `InvalidArgumentException`.
+- Dropped `doctrine/annotations` support. All JSON API model declarations must be php 8 attributes.
+- The legacy annotation classes under `Dogado\JsonApi\Annotations` have been removed.
+- The `value` properties for the `Attribute` and `Type` attributes have been renamed to `name`.
+- The `DataModelAnalyser::process` method only accepts objects and strings per data type. Previously, the type check has been done manually and caused a `InvalidArgumentException`.
 
 ## v1.2.0 - 2021-07-09
 
