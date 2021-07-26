@@ -31,8 +31,7 @@ class DataModelAnalyserTest extends TestCase
             'sub-model/name' => 'sub-name',
             'sub-model/sub-model2/name' => 'sub-sub-name',
             'filled-model-without-attributes' => [],
-            'sub-model-null/name' => null,
-            'sub-model-null/sub-model2/name' => null,
+            'sub-model-null' => null,
         ], $converter->getAttributeValues());
         $this->assertEquals([
             'name' => 'newName',
@@ -68,10 +67,8 @@ class DataModelAnalyserTest extends TestCase
             'sub-object/test/second-property' => null,
             'sub-object/createdAt' => null,
             'sub-object/updatedAt' => null,
-            'sub-model/name' => null,
-            'sub-model/sub-model2/name' => null,
-            'sub-model-null/name' => null,
-            'sub-model-null/sub-model2/name' => null,
+            'sub-model' => null,
+            'sub-model-null' => null,
             'filled-model-without-attributes' => null,
         ], $converter->getAttributeValues());
         $this->assertEquals([

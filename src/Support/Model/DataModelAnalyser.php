@@ -191,10 +191,17 @@ class DataModelAnalyser
             [$attributePrefix => $propertyPrefix],
             $self->getAttributesPropertyMap(),
         );
-        $this->resourceValueMap['attributes'] = array_merge(
-            $this->resourceValueMap['attributes'],
-            $self->getAttributeValues() ?: [$attributePrefix => null !== $valueObject ? [] : null]
-        );
+        if (null === $valueObject) {
+            $this->resourceValueMap['attributes'] = array_merge(
+                $this->resourceValueMap['attributes'],
+                [$attributePrefix => null]
+            );
+        } else {
+            $this->resourceValueMap['attributes'] = array_merge(
+                $this->resourceValueMap['attributes'],
+                $self->getAttributeValues() ?: [$attributePrefix => []]
+            );
+        }
     }
 
     private function registerAttributeValue(
