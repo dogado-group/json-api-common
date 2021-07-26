@@ -10,6 +10,7 @@ use Dogado\JsonApi\Attribute\Attribute;
 use Dogado\JsonApi\Attribute\Id;
 use Dogado\JsonApi\Attribute\Type;
 use Dogado\JsonApi\Support\Model\CustomAttributeGetterInterface;
+use stdClass;
 
 #[Type('dummy-model')]
 class DummyModel implements CustomAttributeGetterInterface
@@ -38,6 +39,9 @@ class DummyModel implements CustomAttributeGetterInterface
     #[Attribute('sub-model')]
     private DummyValueObjectModel $aggregationModel;
 
+    #[Attribute('filled-model-without-attributes')]
+    private stdClass $filledModelWithoutAttributes;
+
     #[Attribute('sub-model-null')]
     private ?DummyValueObjectModel $aggregationModelNull = null;
 
@@ -47,6 +51,7 @@ class DummyModel implements CustomAttributeGetterInterface
     public function __construct(DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
+        $this->filledModelWithoutAttributes = new stdClass();
         $this->aggregationModel = new DummyValueObjectModel();
     }
 

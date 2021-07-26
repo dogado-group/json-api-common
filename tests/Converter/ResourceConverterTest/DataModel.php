@@ -41,7 +41,10 @@ class DataModel implements CustomAttributeSetterInterface
     private ValueObject $valueObject;
 
     #[Attribute]
-    private ?ValueObject $nullableValueObject = null;
+    private ?ValueObjectWithFactory $nullableValueObject = null;
+
+    #[Attribute]
+    private ?ValueObjectWithFactoryWrapper $nested = null;
 
     #[Attribute('arrayItems')]
     private ?array $arrayItems = null;
@@ -141,9 +144,14 @@ class DataModel implements CustomAttributeSetterInterface
         return $this->valueObject;
     }
 
-    public function getNullableValueObject(): ?ValueObject
+    public function getNullableValueObject(): ?ValueObjectWithFactory
     {
         return $this->nullableValueObject;
+    }
+
+    public function getNested(): ?ValueObjectWithFactoryWrapper
+    {
+        return $this->nested;
     }
 
     public function getArrayItems(): ?array

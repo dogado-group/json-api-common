@@ -3,15 +3,9 @@
 namespace Dogado\JsonApi\Tests\Converter\ResourceConverterTest;
 
 use Dogado\JsonApi\Attribute\Attribute;
-use Dogado\JsonApi\Support\Model\ValueObjectFactoryInterface;
 
-class ValueObject implements ValueObjectFactoryInterface
+class ValueObject
 {
-    public static function create(): self
-    {
-        return new self();
-    }
-
     #[Attribute('number')]
     private ?int $subItem = null;
 

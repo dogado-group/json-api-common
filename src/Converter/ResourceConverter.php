@@ -67,7 +67,7 @@ class ResourceConverter
     protected function setValue(ReflectionClass $reflection, object $model, array $propertyMap, mixed $value): void
     {
         $propertyName = array_shift($propertyMap);
-        if (!$reflection->hasProperty($propertyName)) {
+        if (null === $propertyName || !$reflection->hasProperty($propertyName)) {
             return;
         }
 
@@ -96,7 +96,7 @@ class ResourceConverter
         }
 
         $propertyClassName = $propertyType->getName();
-        if (class_exists($propertyClassName) && 0 < count($propertyMap)) {
+        if (class_exists($propertyClassName)) {
             if (null === $value) {
                 return;
             }

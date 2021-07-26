@@ -188,11 +188,12 @@ class DataModelAnalyser
         // In case the value object has no attributes, we must register the attribute prefix with a null value.
         $this->propertyMap['attributes'] = array_merge(
             $this->propertyMap['attributes'],
-            $self->getAttributesPropertyMap() ?: [$attributePrefix => $propertyPrefix]
+            [$attributePrefix => $propertyPrefix],
+            $self->getAttributesPropertyMap(),
         );
         $this->resourceValueMap['attributes'] = array_merge(
             $this->resourceValueMap['attributes'],
-            $self->getAttributeValues() ?: [$attributePrefix => null]
+            $self->getAttributeValues() ?: [$attributePrefix => null !== $valueObject ? [] : null]
         );
     }
 
