@@ -221,9 +221,6 @@ class ResourceConverterTest extends TestCase
         $this->assertInstanceOf(ValueObjectWithFactory::class, $model->getNested()->getNullableValueObject());
     }
 
-    /**
-     * @group test
-     */
     public function testNestedMissingValueDoesNotInitializeValueObjects(): void
     {
         $resource = new Resource('dummy-deserializer-model', (string) $this->faker()->numberBetween(), [
