@@ -31,6 +31,7 @@ class ModelConverterTest extends TestCase
                 'number' => $model->getValueObject()->getTest(),
             ],
             'empty-values' => null,
+            'valueObjectWithoutAttributes' => [],
             'createdAt' => $date->format(DateTimeInterface::ATOM),
             'updatedAt' => null,
         ]);

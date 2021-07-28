@@ -26,6 +26,9 @@ class DataModel implements CustomAttributeGetterInterface, CustomAttributeSetter
     #[Attribute('empty-values')]
     private ?ValueObject $valueObjectNotInitialized = null;
 
+    #[Attribute]
+    private ValueObjectWithoutAttributes $valueObjectWithoutAttributes;
+
     #[Attribute(ignoreOnNull: true)]
     private ?string $ignoreOnNull = null;
 
@@ -39,6 +42,7 @@ class DataModel implements CustomAttributeGetterInterface, CustomAttributeSetter
     {
         $this->createdAt = $createdAt;
         $this->valueObject = new ValueObject();
+        $this->valueObjectWithoutAttributes = new ValueObjectWithoutAttributes();
     }
 
     public function __getAttribute(string $property): ?string
