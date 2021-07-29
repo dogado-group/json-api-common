@@ -4,6 +4,7 @@
 
 - Add support for self initialized nullable value objects
 - Model converter: Empty value objects are now converted to empty hashes
+- Resource converter: Empty hashes now initialize value objects that support the `\Dogado\JsonApi\Support\Model\ValueObjectFactoryInterface`
 - Model converter: Fix a bug where uninitialized value objects are treated like valid instances, although they should be `null`
 
 ## v2.0.0 - 2021-07-11
