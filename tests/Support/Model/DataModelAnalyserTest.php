@@ -30,8 +30,8 @@ class DataModelAnalyserTest extends TestCase
             'sub-object/updatedAt' => null,
             'sub-model/name' => 'sub-name',
             'sub-model/sub-model2/name' => 'sub-sub-name',
-            'sub-model-null/name' => null,
-            'sub-model-null/sub-model2/name' => null,
+            'filled-model-without-attributes' => [],
+            'sub-model-null' => null,
         ], $converter->getAttributeValues());
         $this->assertEquals([
             'name' => 'newName',
@@ -39,11 +39,16 @@ class DataModelAnalyserTest extends TestCase
             'sub-object/test/second-property' => 'secondPropertyWithinObject',
             'sub-object/createdAt' => 'createdAt',
             'sub-object/updatedAt' => 'updatedAt',
+            'sub-model' => 'aggregationModel',
             'sub-model/name' => 'aggregationModel/name',
+            'sub-model/sub-model2' => 'aggregationModel/subModel',
             'sub-model/sub-model2/name' => 'aggregationModel/subModel/name',
+            'sub-model-null' => 'aggregationModelNull',
             'sub-model-null/name' => 'aggregationModelNull/name',
+            'sub-model-null/sub-model2' => 'aggregationModelNull/subModel',
             'sub-model-null/sub-model2/name' => 'aggregationModelNull/subModel/name',
             'ignoreOnNull' => 'ignoreOnNull',
+            'filled-model-without-attributes' => 'filledModelWithoutAttributes',
         ], $converter->getAttributesPropertyMap());
     }
 
@@ -62,10 +67,9 @@ class DataModelAnalyserTest extends TestCase
             'sub-object/test/second-property' => null,
             'sub-object/createdAt' => null,
             'sub-object/updatedAt' => null,
-            'sub-model/name' => null,
-            'sub-model/sub-model2/name' => null,
-            'sub-model-null/name' => null,
-            'sub-model-null/sub-model2/name' => null,
+            'sub-model' => null,
+            'sub-model-null' => null,
+            'filled-model-without-attributes' => null,
         ], $converter->getAttributeValues());
         $this->assertEquals([
             'name' => 'newName',
@@ -73,11 +77,16 @@ class DataModelAnalyserTest extends TestCase
             'sub-object/test/second-property' => 'secondPropertyWithinObject',
             'sub-object/createdAt' => 'createdAt',
             'sub-object/updatedAt' => 'updatedAt',
+            'sub-model' => 'aggregationModel',
             'sub-model/name' => 'aggregationModel/name',
+            'sub-model/sub-model2' => 'aggregationModel/subModel',
             'sub-model/sub-model2/name' => 'aggregationModel/subModel/name',
+            'sub-model-null' => 'aggregationModelNull',
             'sub-model-null/name' => 'aggregationModelNull/name',
+            'sub-model-null/sub-model2' => 'aggregationModelNull/subModel',
             'sub-model-null/sub-model2/name' => 'aggregationModelNull/subModel/name',
             'ignoreOnNull' => 'ignoreOnNull',
+            'filled-model-without-attributes' => 'filledModelWithoutAttributes',
         ], $converter->getAttributesPropertyMap());
     }
 

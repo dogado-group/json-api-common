@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.1.0 - 2021-07-29
+
+- Add support for self initialized nullable value objects
+- Model converter: Empty value objects are now converted to empty hashes
+- Model converter: Fix a bug where uninitialized value objects are treated like valid instances, although they should be `null`
+
 ## v2.0.0 - 2021-07-11
 
 - Dropped `doctrine/annotations` support. All JSON API model declarations must be php 8 attributes.

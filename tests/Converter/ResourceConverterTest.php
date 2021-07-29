@@ -8,6 +8,8 @@ use Dogado\JsonApi\Exception\DataModelSerializerException;
 use Dogado\JsonApi\Model\Resource\Resource;
 use Dogado\JsonApi\Tests\Converter\ResourceConverterTest\DataModel;
 use Dogado\JsonApi\Tests\Converter\ResourceConverterTest\DataModelWithoutTypeAnnotation;
+use Dogado\JsonApi\Tests\Converter\ResourceConverterTest\ValueObjectWithFactory;
+use Dogado\JsonApi\Tests\Converter\ResourceConverterTest\ValueObjectWithFactoryWrapper;
 use Dogado\JsonApi\Tests\TestCase;
 use ReflectionException;
 use stdClass;
@@ -40,6 +42,9 @@ class ResourceConverterTest extends TestCase
                 'values' => [
                     'number' => (string) $this->faker()->numberBetween(),
                     'ignoreOnNull' => $this->faker()->text(),
+                ],
+                'nullableValueObject' => [
+                    'item' => $this->faker()->numberBetween(),
                 ],
                 'arrayItems' => [
                     $this->faker->slug() => $this->faker->text(),
@@ -81,6 +86,11 @@ class ResourceConverterTest extends TestCase
         $this->assertEquals(
             $attributes->getSubCollection('values')->getRequired('ignoreOnNull'),
             $model->getValueObject()->getIgnoreOnNull()
+        );
+        $this->assertNotNull($model->getNullableValueObject());
+        $this->assertEquals(
+            (int) $attributes->getSubCollection('nullableValueObject')->getRequired('item'),
+            $model->getNullableValueObject()->getItem()
         );
         $this->assertEquals(
             $attributes->get('arrayItems'),
@@ -167,5 +177,63 @@ class ResourceConverterTest extends TestCase
     {
         $this->expectExceptionObject(DataModelSerializerException::typeAnnotationMissing(stdClass::class));
         (new ResourceConverter())->toModel(null, new stdClass());
+    }
+
+    public function testNullableValueObject(): void
+    {
+        $resource = new Resource('dummy-deserializer-model', (string) $this->faker()->numberBetween(), [
+            'notNullable' => $this->faker()->slug(),
+            'createdAt' => $this->faker()->dateTime()->format(DateTimeInterface::ATOM),
+        ]);
+
+        $model = new DataModel();
+        (new ResourceConverter())->toModel($resource, $model);
+        $this->assertNull($model->getNullableValueObject());
+    }
+
+    public function testEmptyArraysInitializeNullableValueObjects(): void
+    {
+        $resource = new Resource('dummy-deserializer-model', (string) $this->faker()->numberBetween(), [
+            'notNullable' => $this->faker()->slug(),
+            'createdAt' => $this->faker()->dateTime()->format(DateTimeInterface::ATOM),
+            'nullableValueObject' => [],
+        ]);
+
+        $model = new DataModel();
+        (new ResourceConverter())->toModel($resource, $model);
+        $this->assertInstanceOf(ValueObjectWithFactory::class, $model->getNullableValueObject());
+        $this->assertNull($model->getNested());
+    }
+
+    public function testNestedEmptyArraysInitializeNullableValueObjects(): void
+    {
+        $resource = new Resource('dummy-deserializer-model', (string) $this->faker()->numberBetween(), [
+            'notNullable' => $this->faker()->slug(),
+            'createdAt' => $this->faker()->dateTime()->format(DateTimeInterface::ATOM),
+            'nested' => [
+                'nullableValueObject' => [],
+            ],
+        ]);
+
+        $model = new DataModel();
+        (new ResourceConverter())->toModel($resource, $model);
+        $this->assertInstanceOf(ValueObjectWithFactoryWrapper::class, $model->getNested());
+        $this->assertInstanceOf(ValueObjectWithFactory::class, $model->getNested()->getNullableValueObject());
+    }
+
+    public function testNestedMissingValueDoesNotInitializeValueObjects(): void
+    {
+        $resource = new Resource('dummy-deserializer-model', (string) $this->faker()->numberBetween(), [
+            'notNullable' => $this->faker()->slug(),
+            'createdAt' => $this->faker()->dateTime()->format(DateTimeInterface::ATOM),
+            'nested' => [
+                'nullableValueObject' => null,
+            ],
+        ]);
+
+        $model = new DataModel();
+        (new ResourceConverter())->toModel($resource, $model);
+        $this->assertInstanceOf(ValueObjectWithFactoryWrapper::class, $model->getNested());
+        $this->assertNull($model->getNested()->getNullableValueObject());
     }
 }

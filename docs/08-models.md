@@ -93,9 +93,12 @@ class User implements CustomAttributeGetterInterface, CustomAttributeSetterInter
 }
 ```
 
-The model conversion supports the filling and conversion of all types of member properties. This also includes object properties, under two conditions:
-* the value object also contains `Attribute` properties (`Id` and `Type` is only supported on root level)
-* when converting from JSON API resource to model, the object property has to be an initialized object instance
+The model conversion supports the filling and conversion of all types of member properties. This also applies to object properties.
+However, there are some points to consider here:
+* the value object should contain `Attribute` properties, although it's not required (`Id` and `Type` is only supported on root level)
+* when converting from JSON API resource to model the object property has to be an initialized object instance OR
+must implement the `\Dogado\JsonApi\Support\Model\ValueObjectFactoryInterface` when it's nullable.  Feel free to use the
+`ValueObjectFactoryTrait` which contains a simple `create` factory method.
 
 Whenever you want to use objects as JSON API attributes which do not hold attribute definitions themselves, you have to use either the `CustomAttributeGetterInterface` or `CustomAttributeSetterInterface`, depending on your needs.
 
