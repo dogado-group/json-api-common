@@ -19,9 +19,4 @@
             <directory suffix=".php">src</directory>
         </include>
     </coverage>
-    <php>
-        <ini name="display_errors" value="On" />
-        <ini name="error_reporting" value="E_ALL" />
-        <ini name="display_startup_errors" value="On" />
-    </php>
 </phpunit>
