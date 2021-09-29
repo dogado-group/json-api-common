@@ -285,4 +285,23 @@ class RequestTest extends TestCase
         self::assertArrayHasKey($fieldType, $queryParameters['fields']);
         self::assertStringContainsString($fieldName, $queryParameters['fields'][$fieldType]);
     }
+
+    public function testCustomQueryParameters(): void
+    {
+        $request = new Request(
+            'GET',
+            new Uri('/index.php/api/examples/example-1'),
+            null,
+            'api'
+        );
+
+        $queryKey = $this->faker()->word();
+        $queryValue = $this->faker()->word();
+
+        $request->customQueryParameters()->set($queryKey, $queryValue);
+        parse_str($request->uri()->getQuery(), $requestQuery);
+
+        self::assertArrayHasKey($queryKey, $requestQuery);
+        self::assertEquals($queryValue, $requestQuery[$queryKey]);
+    }
 }

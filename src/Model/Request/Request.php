@@ -30,6 +30,7 @@ class Request implements RequestInterface
     private KeyValueCollectionInterface $sorting;
     private KeyValueCollectionInterface $pagination;
     private ?DocumentInterface $document;
+    private KeyValueCollectionInterface $customQueryParameters;
 
     /** @var RequestInterface[] */
     private array $subRequests = [];
@@ -73,6 +74,8 @@ class Request implements RequestInterface
 
         $this->headers = new KeyValueCollection();
         $this->headers->set('Content-Type', JsonApiInterface::CONTENT_TYPE);
+
+        $this->customQueryParameters = new KeyValueCollection();
     }
 
     /**
@@ -199,6 +202,11 @@ class Request implements RequestInterface
     {
         $this->updateUriQuery();
         return $this->uri;
+    }
+
+    public function customQueryParameters(): KeyValueCollectionInterface
+    {
+        return $this->customQueryParameters;
     }
 
     /**
@@ -407,7 +415,7 @@ class Request implements RequestInterface
             'filter' => $this->filter->all(),
             'include' => implode(',', $this->includes),
             'fields' => $fields
-        ];
+        ] + $this->customQueryParameters->all();
 
         // Remove empty query params.
         $query = array_filter($query);
