@@ -74,8 +74,6 @@ class Request implements RequestInterface
 
         $this->headers = new KeyValueCollection();
         $this->headers->set('Content-Type', JsonApiInterface::CONTENT_TYPE);
-
-        $this->customQueryParameters = new KeyValueCollection();
     }
 
     /**
@@ -137,7 +135,7 @@ class Request implements RequestInterface
                 throw new BadRequestException('Invalid include parameter given!');
             }
 
-            $this->includes = explode(',', $query->getRequired('include'));
+            $this->includes = explode(',', $query->pull('include'));
         }
 
         $this->fields = [];
@@ -145,7 +143,7 @@ class Request implements RequestInterface
             if (!is_array($query->getRequired('fields'))) {
                 throw new BadRequestException('Invalid fields parameter given!');
             }
-            foreach ((array)$query->getRequired('fields') as $type => $fields) {
+            foreach ((array)$query->pull('fields') as $type => $fields) {
                 foreach (explode(',', $fields) as $field) {
                     $this->fields[$type][] = $field;
                 }
@@ -154,9 +152,9 @@ class Request implements RequestInterface
 
         $filter = [];
         if ($query->has('filter')) {
-            $filter = $query->getRequired('filter');
+            $filter = $query->pull('filter');
             if (is_string($filter)) {
-                $filter = json_decode($query->getRequired('filter'), true);
+                $filter = json_decode($filter, true);
             }
             if (!is_array($filter)) {
                 throw new BadRequestException('Invalid filter parameter given!');
@@ -170,7 +168,7 @@ class Request implements RequestInterface
             if (!is_array($query->getRequired('page'))) {
                 throw new BadRequestException('Invalid page parameter given!');
             }
-            $pagination = (array) $query->getRequired('page');
+            $pagination = (array) $query->pull('page');
         }
 
         $this->pagination = new KeyValueCollection($pagination);
@@ -180,7 +178,7 @@ class Request implements RequestInterface
             if (!is_string($query->getRequired('sort'))) {
                 throw new BadRequestException('Invalid sort parameter given!');
             }
-            foreach (explode(',', $query->getRequired('sort')) as $field) {
+            foreach (explode(',', $query->pull('sort')) as $field) {
                 $direction = self::ORDER_ASC;
                 if (str_starts_with($field, '-')) {
                     $field = substr($field, 1);
@@ -191,6 +189,7 @@ class Request implements RequestInterface
         }
 
         $this->sorting = new KeyValueCollection($sorting);
+        $this->customQueryParameters = $query;
     }
 
     public function method(): string

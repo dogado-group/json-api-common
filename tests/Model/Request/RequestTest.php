@@ -95,6 +95,41 @@ class RequestTest extends TestCase
         $this->assertEquals($requestBody, $request->document());
     }
 
+    public function providesUriWithQueryParameters(): \Generator
+    {
+        // '?include=tests,tests.user&fields[user]=username,birthday&page[offset]=0&page[limit]=10&sort=-createdAt&filter[test]=test,test2'
+        yield ['', [], [], [], []];
+        yield ['?page[offset]=1&page[limit]=10', ['offset' => 1, 'limit' => 10], [], [], []];
+        yield ['?sort=-createdAt', [], ['createdAt' => 'desc'], [], []];
+        yield ['?filter[test]=test,test2', [], [], ['test' => 'test,test2'], []];
+        yield ['?key1=value1&key2=value2', [], [], [], ['key1' => 'value1', 'key2' => 'value2']];
+        yield [
+            '?page[offset]=1&page[limit]=10&sort=-createdAt&filter[test]=test,test2&key1=value1&key2=value2',
+            ['offset' => 1, 'limit' => 10],
+            ['createdAt' => 'desc'],
+            ['test' => 'test,test2'],
+            ['key1' => 'value1', 'key2' => 'value2']
+        ];
+
+    }
+
+    /**
+     * @dataProvider providesUriWithQueryParameters
+     */
+    public function testConstructionWithQueryParameters(
+        string $queryString,
+        array $page,
+        array $sort,
+        array $filter,
+        array $custom
+    ): void {
+        $request = new Request('GET', new Uri('/index.php/example' . $queryString), null);
+        $this->assertEquals($page, $request->pagination()->all(), '$page does not match');
+        $this->assertEquals($sort, $request->sorting()->all(), '$sort does not match');
+        $this->assertEquals($filter, $request->filter()->all(), '$filter does not match');
+        $this->assertEquals($custom, $request->customQueryParameters()->all(), '$custom does not match');
+    }
+
     public function testRequestInvalidType(): void
     {
         $this->expectException(BadRequestException::class);
