@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.0.0 - 2021-10-01
+
+- Request: Add ability to add custom query parameters to requests
+- KeyValueCollection: Add ability to pull (get and remove) items by key
+
 ## v2.1.0 - 2021-07-29
 
 - Add support for self initialized nullable value objects
