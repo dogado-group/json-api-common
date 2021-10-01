@@ -18,6 +18,9 @@ interface RequestInterface
 
     public function uri(): UriInterface;
 
+    /**
+     * Custom, not by the protocol required query parameters
+     */
     public function customQueryParameters(): KeyValueCollectionInterface;
 
     /**
