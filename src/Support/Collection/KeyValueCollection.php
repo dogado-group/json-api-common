@@ -97,4 +97,11 @@ class KeyValueCollection extends AbstractCollection implements KeyValueCollectio
 
         return $this;
     }
+
+    public function pull(string $key, mixed $defaultValue = null): mixed
+    {
+        $value = $this->get($key, $defaultValue);
+        $this->remove($key);
+        return $value;
+    }
 }
