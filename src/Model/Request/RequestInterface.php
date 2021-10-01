@@ -18,6 +18,8 @@ interface RequestInterface
 
     public function uri(): UriInterface;
 
+    public function customQueryParameters(): KeyValueCollectionInterface;
+
     /**
      * Contains all request headers.
      */
