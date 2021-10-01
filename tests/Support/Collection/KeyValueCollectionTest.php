@@ -214,4 +214,13 @@ class KeyValueCollectionTest extends TestCase
 
         self::assertTrue($collection->has('test'));
     }
+
+    public function testPull(): void
+    {
+        $collection = new KeyValueCollection(['key' => 'value']);
+        $value = $collection->pull('key');
+        
+        self::assertEquals('value', $value);
+        self::assertFalse($collection->has('key'));
+    }
 }

@@ -29,4 +29,6 @@ interface KeyValueCollectionInterface extends CollectionInterface
     public function set(string $key, mixed $value): KeyValueCollectionInterface;
 
     public function remove(string $key): KeyValueCollectionInterface;
+
+    public function pull(string $key, mixed $defaultValue = null): mixed;
 }
