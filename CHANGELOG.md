@@ -2,7 +2,7 @@
 
 ## v3.1.0 - 2022-04-XX
 
-- Resource converter: Add `Dogado\JsonApi\Support\Model\PlainAttributesInterface` to optionally be able to fetch the original attributes input in model instances
+- Resource converter: Add `Dogado\JsonApi\Support\Model\PlainAttributesInterface` to optionally be able to fetch the original attribute input in model instances
 
 ## v3.0.0 - 2021-10-01
 
