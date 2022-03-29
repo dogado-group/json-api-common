@@ -8,6 +8,7 @@ use Dogado\JsonApi\Exception\DataModelSerializerException;
 use Dogado\JsonApi\Model\Resource\ResourceInterface;
 use Dogado\JsonApi\Support\Model\CustomAttributeSetterInterface;
 use Dogado\JsonApi\Support\Model\DataModelAnalyser;
+use Dogado\JsonApi\Support\Model\PlainAttributesInterface;
 use Dogado\JsonApi\Support\Model\ValueObjectFactoryInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -48,6 +49,10 @@ class ResourceConverter
         }
 
         $attributeValues = $resource->attributes()->all();
+        if ($model instanceof PlainAttributesInterface) {
+            $model->setPlainAttributes($resource->attributes());
+        }
+
         foreach ($analyser->getAttributesPropertyMap() as $attributeMap => $propertyMap) {
             $this->setValue(
                 $reflection,
