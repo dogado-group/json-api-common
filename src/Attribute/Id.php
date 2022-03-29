@@ -7,5 +7,4 @@ namespace Dogado\JsonApi\Attribute;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 class Id
 {
-
 }

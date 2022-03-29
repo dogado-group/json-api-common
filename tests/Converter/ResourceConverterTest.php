@@ -6,8 +6,11 @@ use DateTimeInterface;
 use Dogado\JsonApi\Converter\ResourceConverter;
 use Dogado\JsonApi\Exception\DataModelSerializerException;
 use Dogado\JsonApi\Model\Resource\Resource;
+use Dogado\JsonApi\Support\Collection\KeyValueCollectionInterface;
+use Dogado\JsonApi\Support\Model\PlainAttributesInterface;
 use Dogado\JsonApi\Tests\Converter\ResourceConverterTest\DataModel;
 use Dogado\JsonApi\Tests\Converter\ResourceConverterTest\DataModelWithoutTypeAnnotation;
+use Dogado\JsonApi\Tests\Converter\ResourceConverterTest\DataModelWithPlainAttributes;
 use Dogado\JsonApi\Tests\Converter\ResourceConverterTest\ValueObjectWithFactory;
 use Dogado\JsonApi\Tests\Converter\ResourceConverterTest\ValueObjectWithFactoryWrapper;
 use Dogado\JsonApi\Tests\TestCase;
@@ -235,5 +238,30 @@ class ResourceConverterTest extends TestCase
         (new ResourceConverter())->toModel($resource, $model);
         $this->assertInstanceOf(ValueObjectWithFactoryWrapper::class, $model->getNested());
         $this->assertNull($model->getNested()->getNullableValueObject());
+    }
+
+    public function testPlainAttributes(): void
+    {
+        $resource = new Resource(
+            'dummy-deserializer-model-with-plain-attributes',
+            (string) $this->faker()->numberBetween(),
+            [
+                'stringValue' => $this->faker()->userName(),
+                'values' => [
+                    'number' => (string) $this->faker()->numberBetween(),
+                    'ignoreOnNull' => $this->faker()->text(),
+                ],
+            ],
+        );
+
+        $model = new DataModelWithPlainAttributes();
+        $this->assertInstanceOf(PlainAttributesInterface::class, $model);
+        $attributes = $resource->attributes();
+        $this->assertInstanceOf(get_class($model), (new ResourceConverter())->toModel($resource, $model));
+        $plainAttributes = $model->getPlainAttributes();
+        $this->assertInstanceOf(KeyValueCollectionInterface::class, $plainAttributes);
+
+        $this->assertEquals($attributes->getRequired('stringValue'), $plainAttributes->getRequired('stringValue'));
+        $this->assertEquals($attributes->getRequired('values'), $plainAttributes->getRequired('values'));
     }
 }
