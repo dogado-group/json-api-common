@@ -339,4 +339,16 @@ class RequestTest extends TestCase
         self::assertArrayHasKey($queryKey, $requestQuery);
         self::assertEquals($queryValue, $requestQuery[$queryKey]);
     }
+
+    public function testUrlWithAsteriskCharacter(): void
+    {
+        $request = new Request(
+            'GET',
+            new Uri('/index.php/api/examples/*.example-1'),
+            null,
+            'api'
+        );
+
+        self::assertEquals('*.example-1', $request->id());
+    }
 }
