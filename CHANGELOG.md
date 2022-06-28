@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.1 - 2022-06-28
+
+- Fix a bug where asterisk characters were not supported in request url's
+
 ## v3.0.0 - 2021-10-01
 
 - Request: Add ability to add custom query parameters to requests
